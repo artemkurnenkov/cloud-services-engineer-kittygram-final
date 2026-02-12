@@ -1,0 +1,48 @@
+services:
+  postgres:
+    image: postgres:13.10
+    restart: always
+    env_file: _env.example
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "--quiet"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend/
+    restart: always
+    env_file: _env.example
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - static:/backend_static
+      - media:/app/media
+
+  frontend:
+    build: ./frontend/
+    restart: always
+    env_file: _env.example
+    volumes:
+      - static:/frontend_static
+
+  gateway:
+    build: ./nginx/
+    restart: always
+    env_file: _env.example
+    depends_on:
+      - backend
+      - frontend
+    ports:
+      - 80:80
+    volumes:
+      - static:/static
+      - media:/media
+
+volumes:
+  pg_data:
+  static:
+  media:
