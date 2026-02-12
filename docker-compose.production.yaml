@@ -3,7 +3,7 @@ services:
   postgres:
     image: postgres:13.10
     restart: always
-    env_file: _env.example
+    env_file: .env
     volumes:
       - pg_data:/var/lib/postgresql/data
     healthcheck:
@@ -15,7 +15,7 @@ services:
   backend:
     build: ./backend/
     restart: always
-    env_file: _env.example
+    env_file: .env
     depends_on:
       postgres:
         condition: service_healthy
@@ -26,14 +26,14 @@ services:
   frontend:
     build: ./frontend/
     restart: always
-    env_file: _env.example
+    env_file: .env
     volumes:
       - static:/frontend_static
 
   gateway:
     build: ./nginx/
     restart: always
-    env_file: _env.example
+    env_file: .env
     depends_on:
       - backend
       - frontend
