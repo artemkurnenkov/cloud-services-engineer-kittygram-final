@@ -6,14 +6,9 @@ services:
     env_file: .env
     volumes:
       - pg_data:/var/lib/postgresql/data
-    # healthcheck:
-    #   test: ["CMD-SHELL", "pg_isready", "--quiet"]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 5
 
   backend:
-    build: ./backend/
+    image: akurnenkov/kittygram_backend
     restart: always
     env_file: .env
     depends_on:
@@ -23,7 +18,7 @@ services:
       - media:/app/media
 
   frontend:
-    build: ./frontend/
+    image: akurnenkov/kittygram_frontend
     restart: always
     env_file: .env
     command: cp -r /app/build/. /frontend_static/
@@ -31,7 +26,7 @@ services:
       - static:/frontend_static
 
   gateway:
-    build: ./nginx/
+    image: akurnenkov/kittygram_gateway
     restart: always
     env_file: .env
     depends_on:
