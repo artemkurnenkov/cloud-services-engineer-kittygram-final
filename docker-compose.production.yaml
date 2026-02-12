@@ -36,7 +36,7 @@ services:
       - 80:80
     volumes:
       - static:/static
-      - media:/media
+      - media:/app/media
 
 volumes:
   pg_data:
