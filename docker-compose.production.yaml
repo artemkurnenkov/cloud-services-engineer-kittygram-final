@@ -21,6 +21,8 @@ services:
     image: akurnenkov/kittygram_frontend
     restart: always
     env_file: .env
+    ports:
+      - 8000:8000
     command: cp -r /app/build/. /frontend_static/
     volumes:
       - static:/frontend_static
