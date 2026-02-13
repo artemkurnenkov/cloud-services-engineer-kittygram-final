@@ -21,9 +21,9 @@ services:
     image: akurnenkov/kittygram_frontend
     restart: always
     env_file: .env
-    command: cp -r /app/build/. /static/
+    command: cp -r /app/build/. /frontend_static/
     volumes:
-      - static:/static
+      - static:/frontend_static
 
   gateway:
     image: akurnenkov/kittygram_gateway
